@@ -1,23 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+import React from 'react';
+import { useAuthenticator } from '@aws-amplify/ui-react';
 
 function App() {
+  const { user, signOut } = useAuthenticator((context) => [context.user]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>PDF Summarizer - AWS Version</h1>
+      <h2>Welcome, {user.attributes.email}</h2>
+      <button onClick={signOut}>Sign Out</button>
+      <hr />
+      <p>Your application content will go here.</p>
     </div>
   );
 }
