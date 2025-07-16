@@ -8,6 +8,7 @@ import '@aws-amplify/ui-react/styles.css';
 
 // --- Add this line for debugging ---
 console.log("Reading env variable for User Pool ID:", process.env.REACT_APP_COGNITO_USER_POOL_ID);
+console.log("Reading env variable for Client ID:", process.env.REACT_APP_COGNITO_CLIENT_ID);
 // ------------------------------------
 
 Amplify.configure({
