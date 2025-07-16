@@ -6,11 +6,13 @@ import { Amplify } from 'aws-amplify';
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
-// Configure Amplify with the environment variables we set up in the build settings
+// CORRECTED: The configuration needs a nested "Cognito" object.
 Amplify.configure({
   Auth: {
-    userPoolId: process.env.REACT_APP_COGNITO_USER_POOL_ID,
-    userPoolWebClientId: process.env.REACT_APP_COGNITO_CLIENT_ID,
+    Cognito: {
+      userPoolId: process.env.REACT_APP_COGNITO_USER_POOL_ID,
+      userPoolWebClientId: process.env.REACT_APP_COGNITO_CLIENT_ID,
+    }
   },
 });
 
