@@ -6,16 +6,12 @@ import { Amplify } from 'aws-amplify';
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
-// --- Add this line for debugging ---
-console.log("Reading env variable for User Pool ID:", process.env.REACT_APP_COGNITO_USER_POOL_ID);
-console.log("Reading env variable for Client ID:", process.env.REACT_APP_COGNITO_CLIENT_ID);
-// ------------------------------------
-
+// --- Temporarily hardcoding values for debugging ---
 Amplify.configure({
   Auth: {
     Cognito: {
-      userPoolId: process.env.REACT_APP_COGNITO_USER_POOL_ID,
-      userPoolWebClientId: process.env.REACT_APP_COGNITO_CLIENT_ID,
+      userPoolId: 'us-east-2_qtjXAzUbE',
+      userPoolWebClientId: '5o3u2fir8n1a3rr55q83atjrq3',
     }
   },
 });
