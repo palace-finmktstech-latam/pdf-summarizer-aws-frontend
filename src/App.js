@@ -9,10 +9,10 @@ function App() {
     <div>
       <h1>PDF Summarizer - AWS Version</h1>
 
-      {/* This conditionally renders content only when the user is signed in */}
       {user ? (
         <div>
-          <h2>Welcome, {user.attributes.email}</h2>
+          {/* The '?' after attributes is the fix */}
+          <h2>Welcome, {user.attributes?.email}</h2>
           <button onClick={signOut}>Sign Out</button>
         </div>
       ) : (
