@@ -1,22 +1,27 @@
 // src/index.js
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App.jsx';
+import App from './App';
 import { Amplify } from 'aws-amplify';
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
-// Using environment variables with the CORRECT property name for the client ID.
-Amplify.configure({
+// Replace with your actual values
+const config = {
   Auth: {
     Cognito: {
       userPoolId: process.env.REACT_APP_COGNITO_USER_POOL_ID,
-      userPoolClientId: process.env.REACT_APP_COGNITO_CLIENT_ID, // This is the corrected key
+      userPoolClientId: process.env.REACT_APP_COGNITO_CLIENT_ID, 
     }
-  },
-});
+  }
+};
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+console.log('Config being used:', config);
+
+Amplify.configure(config);
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
   <React.StrictMode>
     <Authenticator>
       <App />
