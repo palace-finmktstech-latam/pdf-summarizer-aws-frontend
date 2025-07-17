@@ -9,8 +9,8 @@ import '@aws-amplify/ui-react/styles.css';
 const config = {
   Auth: {
     Cognito: {
-      userPoolId: 'us-east-1_XXXXXXXXX', // Your actual User Pool ID
-      userPoolClientId: 'XXXXXXXXXXXXXXXXXXXXXXXXXX', // Your actual Client ID
+      userPoolId: 'us-east-2_qtjXAzUbE', // Your actual User Pool ID
+      userPoolClientId: '5o3u2fir8n1a3rr55q83atjrq3', // Your actual Client ID
     }
   }
 };
