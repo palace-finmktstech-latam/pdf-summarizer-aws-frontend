@@ -16,8 +16,6 @@ const config = {
   }
 };
 
-console.log('Config being used:', config);
-
 Amplify.configure(config);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
