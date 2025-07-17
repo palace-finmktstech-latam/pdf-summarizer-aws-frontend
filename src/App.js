@@ -5,17 +5,14 @@ import { useAuthenticator } from '@aws-amplify/ui-react';
 function App() {
   const { user, signOut } = useAuthenticator();
 
-  // --- Add this line for debugging ---
-  console.log("User Object:", user);
-  // ------------------------------------
-
   return (
     <div>
       <h1>PDF Summarizer - AWS Version</h1>
-
+      
       {user ? (
         <div>
-          <h2>Welcome, {user.attributes?.email}</h2>
+          {/* This now points to the correct location for the email */}
+          <h2>Welcome, {user.signInDetails?.loginId}</h2>
           <button onClick={signOut}>Sign Out</button>
         </div>
       ) : (
