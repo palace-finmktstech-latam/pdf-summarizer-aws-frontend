@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import './App.css'; // Assuming you have some basic styles
 import { useAuthenticator } from '@aws-amplify/ui-react';
+import { fetchAuthSession } from 'aws-amplify/auth';
 
 // IMPORTANT: Replace with the actual URL of your deployed App Runner service
 const APP_RUNNER_URL = 'https://p9pgmc7n2h.us-east-2.awsapprunner.com';
@@ -42,8 +43,8 @@ function App() {
 
     try {
       // Get the JWT from the user's session
-      const session = await user.getSignInUserSession();
-      const idToken = session.getIdToken().getJwtToken();
+      const { tokens } = await fetchAuthSession();
+      const idToken = tokens.idToken.toString();
 
       // --- STEP 1: Get Signed URL from our AWS Backend ---
       setUploadStatus('Requesting secure upload URL...');
