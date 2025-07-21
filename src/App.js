@@ -42,7 +42,7 @@ function App() {
     setSummaryResult('');
 
     try {
-      // Get the JWT from the user's session
+      // This is the corrected way to get the token
       const { tokens } = await fetchAuthSession();
       const idToken = tokens.idToken.toString();
 
@@ -65,7 +65,7 @@ function App() {
         throw new Error(errorData.error || `Error getting signed URL`);
       }
       const { signedUrl, objectName } = await signedUrlResponse.json();
-      
+
       // --- STEP 2: Directly Upload PDF to S3 using the Signed URL ---
       setUploadStatus(`Uploading file to S3 as: ${objectName}`);
       const uploadResponse = await fetch(signedUrl, {
@@ -81,11 +81,9 @@ function App() {
       }
 
       setUploadStatus(`Successfully uploaded: ${objectName}`);
-      
-      // --- STEP 3: Call Summarize Endpoint (Future Step) ---
-      // We will implement this in the next phase. For now, we'll just show a success message.
-      setSummaryResult('File uploaded successfully. Ready for summarization.');
 
+      // --- STEP 3: Call Summarize Endpoint (Future Step) ---
+      setSummaryResult('File uploaded successfully. Ready for summarization.');
 
     } catch (err) {
       console.error('Full process error:', err);
