@@ -16,6 +16,7 @@ function App() {
   // State to show the results, similar to your GCP version
   const [uploadStatus, setUploadStatus] = useState('');
   const [summaryResult, setSummaryResult] = useState('');
+  const [extractedText, setExtractedText] = useState('');
 
 
   const handleFileChange = (event) => {
@@ -23,6 +24,7 @@ function App() {
     setError('');
     setUploadStatus('');
     setSummaryResult('');
+    setExtractedText('');
   };
 
   const handleSubmit = async (event) => {
@@ -39,10 +41,9 @@ function App() {
     setLoading(true);
     setError('');
     setUploadStatus('Starting process...');
-    setSummaryResult('');
+    setExtractedText(''); // Clear previous results
 
     try {
-      // This is the corrected way to get the token
       const { tokens } = await fetchAuthSession();
       const idToken = tokens.idToken.toString();
 
@@ -65,7 +66,7 @@ function App() {
         throw new Error(errorData.error || `Error getting signed URL`);
       }
       const { signedUrl, objectName } = await signedUrlResponse.json();
-
+      
       // --- STEP 2: Directly Upload PDF to S3 using the Signed URL ---
       setUploadStatus(`Uploading file to S3 as: ${objectName}`);
       const uploadResponse = await fetch(signedUrl, {
@@ -80,10 +81,25 @@ function App() {
         throw new Error(`Failed to upload file to S3.`);
       }
 
-      setUploadStatus(`Successfully uploaded: ${objectName}`);
+      // --- STEP 3: Call Summarize Endpoint to Extract Text ---
+      setUploadStatus('Upload complete. Extracting text from backend...');
+      const summarizeResponse = await fetch(`${APP_RUNNER_URL}/summarize-pdf`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${idToken}`
+        },
+        body: JSON.stringify({ objectName: objectName })
+      });
 
-      // --- STEP 3: Call Summarize Endpoint (Future Step) ---
-      setSummaryResult('File uploaded successfully. Ready for summarization.');
+      if (!summarizeResponse.ok) {
+        const errorData = await summarizeResponse.json();
+        throw new Error(errorData.error || `Error extracting text`);
+      }
+
+      const data = await summarizeResponse.json();
+      setExtractedText(data.extracted_text);
+      setUploadStatus('Text extracted successfully.');
 
     } catch (err) {
       console.error('Full process error:', err);
@@ -115,6 +131,13 @@ function App() {
           {loading ? 'Processing...' : 'Upload PDF'}
         </button>
       </form>
+
+      {extractedText && (
+        <div className="result-container">
+          <h2>Extracted Text:</h2>
+          <textarea readOnly value={extractedText} />
+        </div>
+      )}
 
       {error && <p className="error-message">Error: {error}</p>}
       {uploadStatus && <p className="status-message">{uploadStatus}</p>}
