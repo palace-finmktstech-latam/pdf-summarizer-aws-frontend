@@ -17,6 +17,7 @@ function App() {
   const [uploadStatus, setUploadStatus] = useState('');
   const [summaryResult, setSummaryResult] = useState('');
   const [extractedText, setExtractedText] = useState('');
+  const [redactedText, setRedactedText] = useState('');
 
 
   const handleFileChange = (event) => {
@@ -99,7 +100,8 @@ function App() {
 
       const data = await summarizeResponse.json();
       setExtractedText(data.extracted_text);
-      setUploadStatus('Text extracted successfully.');
+      setRedactedText(data.redacted_text); // Add this line
+      setUploadStatus('Text extracted and redacted successfully.');
 
     } catch (err) {
       console.error('Full process error:', err);
@@ -136,6 +138,13 @@ function App() {
         <div className="result-container">
           <h2>Extracted Text:</h2>
           <textarea readOnly value={extractedText} />
+        </div>
+      )}
+      
+      {redactedText && (
+        <div className="result-container">
+          <h2>Redacted Text (from Comprehend):</h2>
+          <textarea readOnly value={redactedText} />
         </div>
       )}
 
