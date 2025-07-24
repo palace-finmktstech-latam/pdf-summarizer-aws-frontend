@@ -18,6 +18,7 @@ function App() {
   const [summaryResult, setSummaryResult] = useState('');
   const [extractedText, setExtractedText] = useState('');
   const [redactedText, setRedactedText] = useState('');
+  const [pseudonymizedText, setPseudonymizedText] = useState('');
 
 
   const handleFileChange = (event) => {
@@ -100,7 +101,8 @@ function App() {
 
       const data = await summarizeResponse.json();
       setExtractedText(data.extracted_text);
-      setRedactedText(data.redacted_text); // Add this line
+      setRedactedText(data.redacted_text);
+      setPseudonymizedText(data.pseudonymized_text);
       setUploadStatus('Text extracted and redacted successfully.');
 
     } catch (err) {
@@ -145,6 +147,13 @@ function App() {
         <div className="result-container">
           <h2>Redacted Text (from Comprehend):</h2>
           <textarea readOnly value={redactedText} />
+        </div>
+      )}
+
+      {pseudonymizedText && (
+        <div className="result-container">
+          <h2>Pseudonymized Text:</h2>
+          <textarea readOnly value={pseudonymizedText} />
         </div>
       )}
 
