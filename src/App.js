@@ -17,7 +17,6 @@ function App() {
   const [uploadStatus, setUploadStatus] = useState('');
   const [summaryResult, setSummaryResult] = useState('');
   const [extractedText, setExtractedText] = useState('');
-  const [redactedText, setRedactedText] = useState('');
   const [pseudonymizedText, setPseudonymizedText] = useState('');
 
 
@@ -101,7 +100,6 @@ function App() {
 
       const data = await summarizeResponse.json();
       setExtractedText(data.extracted_text);
-      setRedactedText(data.redacted_text);
       setPseudonymizedText(data.pseudonymized_text);
       setUploadStatus('Text extracted and redacted successfully.');
 
@@ -140,13 +138,6 @@ function App() {
         <div className="result-container">
           <h2>Extracted Text:</h2>
           <textarea readOnly value={extractedText} />
-        </div>
-      )}
-      
-      {redactedText && (
-        <div className="result-container">
-          <h2>Redacted Text (from Comprehend):</h2>
-          <textarea readOnly value={redactedText} />
         </div>
       )}
 
