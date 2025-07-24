@@ -43,3 +43,10 @@
   margin-top: 10px;
   font-family: monospace;
 }
+
+.pipeline-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
